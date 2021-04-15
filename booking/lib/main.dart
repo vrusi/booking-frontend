@@ -1,10 +1,11 @@
+import 'package:booking/api/api_client.dart';
+import 'package:booking/screens/accommodationlist/accommodation_list_screen.dart';
+import 'package:booking/screens/landing/landing_screen.dart';
 import 'package:flutter/material.dart';
-
-import 'accommodationlist/accommodation_list_screen.dart';
-import 'common/widgets.dart';
-import 'landing/landing_screen.dart';
+import 'package:get_it/get_it.dart';
 
 void main() {
+  GetIt.instance.registerSingleton<Api>(Api());
   runApp(BookingApp());
 }
 
@@ -13,7 +14,7 @@ class BookingApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Booking',
       theme: ThemeData(
         // This is the theme of your application.
         //

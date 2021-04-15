@@ -1,8 +1,6 @@
-import 'package:booking/accommodationlist/accommodation_list_screen.dart';
 import 'package:booking/common/widgets.dart';
+import 'package:booking/screens/accommodationlist/accommodation_list_screen.dart';
 import 'package:flutter/material.dart';
-
-import '../main.dart';
 
 class LandingScreen extends StatefulWidget {
   static const ROUTE = "/";
