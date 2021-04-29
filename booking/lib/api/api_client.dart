@@ -61,7 +61,7 @@ class Api extends http.BaseClient {
   Future<bool> deleteReview(String accommodationId, String reviewId) async {
     try {
       final response = await this.delete(Uri.http(
-          baseUrl, "/accommodation/${accommodationId}/rating/${reviewId}/"));
+          baseUrl, "/accommodation/${accommodationId}/rating/delete/${reviewId}/"));
       return response.statusCode == 200;
     } catch (e) {
       print(e);
@@ -69,11 +69,16 @@ class Api extends http.BaseClient {
     }
   }
 
-  Future<bool> addReview(String accomodationId, String ratingText,
-      double rating, File? image) async {
+  Future<bool> addReview(
+      String accomodationId, String ratingText, double rating, File? image,
+      {String? ratingIdToUpdate}) async {
     try {
-      var uri = Uri.http(baseUrl, "/accommodation/${accomodationId}/rating/");
-      var request = http.MultipartRequest("POST", uri);
+      var ratingIdSuffix =
+          ratingIdToUpdate == null ? '' : "update/${ratingIdToUpdate}/";
+      var uri = Uri.http(
+          baseUrl, "/accommodation/$accomodationId/rating/$ratingIdSuffix");
+      var request =
+          http.MultipartRequest(ratingIdToUpdate == null ? "POST" : "PUT", uri);
 
       var user = getUser();
       request.headers['Authorization'] = 'Bearer ${user!.token}';
@@ -136,7 +141,7 @@ class Api extends http.BaseClient {
   Future<Accommodation> getAccommodation(String id) async {
     try {
       final response =
-          await this.get(Uri.http(baseUrl, "/accommodation/${id}"));
+          await this.get(Uri.http(baseUrl, "/accommodation/${id}/"));
       if (response.statusCode == 200) {
         return Accommodation.fromJson(
             jsonDecode(utf8.decode(response.bodyBytes)));
@@ -168,11 +173,13 @@ class Review {
   final String author;
   final String review;
   final String? image;
+  final double rating;
 
   Review(
       {required this.id,
       required this.author,
       required this.review,
+      required this.rating,
       this.image});
 }
 
@@ -203,6 +210,7 @@ class Accommodation {
         utilities: ["4 hostia", "1 spalna", "3 postele", "1 kupelna"],
         reviews: (json['rating']['ratings'] as List)
             .map((e) => Review(
+                rating: (e['rating'] as int).toDouble(),
                 id: e['id'],
                 author: e['author']['username'],
                 review: e['content'],

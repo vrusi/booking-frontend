@@ -8,10 +8,13 @@ import 'package:image_picker/image_picker.dart';
 
 class ReviewScreen extends StatefulWidget {
   final Accommodation accommodation;
+  final Review? existingReview;
 
   static const ROUTE = "/review";
 
-  const ReviewScreen({Key? key, required this.accommodation}) : super(key: key);
+  const ReviewScreen(
+      {Key? key, required this.accommodation, this.existingReview})
+      : super(key: key);
 
   @override
   _ReviewScreenState createState() => _ReviewScreenState();
@@ -24,6 +27,13 @@ class _ReviewScreenState extends State<ReviewScreen> {
   double rating = 0;
   final TextEditingController ratingText = TextEditingController();
   File? _image;
+
+  @override
+  void initState() {
+    rating = widget.existingReview?.rating ?? 0;
+    ratingText.text = widget.existingReview?.review ?? "";
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -151,7 +161,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                 widget.accommodation.id,
                                 ratingText.text,
                                 rating,
-                                _image);
+                                _image,
+                                ratingIdToUpdate: widget.existingReview?.id);
 
                             if (success) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -167,7 +178,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                           child: Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 60.0),
-                            child: Text("PRIDAT RECENZIU"),
+                            child: Text(
+                                "${widget.existingReview != null ? 'UPRAVIT' : 'PRIDAT'} RECENZIU"),
                           ),
                           style: ButtonStyle(
                             shape: MaterialStateProperty.all(

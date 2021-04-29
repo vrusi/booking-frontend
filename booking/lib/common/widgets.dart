@@ -43,7 +43,7 @@ class Common {
         : "-";
     var ratingCountText = accommodation.ratingCount == 0
         ? ""
-        : "(${accommodation.ratingCount} hodnoteni)";
+        : " (${accommodation.ratingCount} hodnoteni)";
 
     return Row(
       children: [

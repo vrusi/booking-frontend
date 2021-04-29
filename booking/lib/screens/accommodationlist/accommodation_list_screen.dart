@@ -111,9 +111,14 @@ class _AccommodationListScreenState extends State<AccommodationListScreen> {
           final accommodation = accommodations![itemIndex];
 
           return GestureDetector(
-            onTapUp: (_) {
-              Navigator.pushNamed(context, AccommodationDetailScreen.ROUTE,
+            onTapUp: (_) async {
+              var changed = await Navigator.pushNamed(
+                  context, AccommodationDetailScreen.ROUTE,
                   arguments: accommodation);
+
+              if (changed == true) {
+                fetchAccommodations();
+              }
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

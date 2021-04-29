@@ -20,17 +20,39 @@ class AccommodationDetailScreen extends StatefulWidget {
 class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
   var api = GetIt.instance.get<Api>();
 
+  bool loading = true;
+  Accommodation? accommodation;
+
+  @override
+  void initState() {
+    loadAccommodation();
+    super.initState();
+  }
+
+  void loadAccommodation() async {
+    try {
+      setState(() {
+        loading = true;
+      });
+      accommodation = await api.getAccommodation(widget.accommodation.id);
+      setState(() {
+        loading = false;
+      });
+    } catch (e) {
+      print(e);
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final accommodation = widget.accommodation;
-
     return Scaffold(
         appBar: AppBar(
           actions: [AccountButton()],
           leading: IconButton(
             icon: Icon(Icons.chevron_left),
             onPressed: () {
-              Navigator.of(context).maybePop();
+              Navigator.of(context).maybePop(true);
             },
           ),
           centerTitle: false,
@@ -38,113 +60,121 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
         ),
         body: SafeArea(
           bottom: false,
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          child: loading
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Stack(
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.3,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(4.0),
-                            topRight: Radius.circular(4.0)),
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(accommodation.images[1])),
+                    SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(4.0),
+                                  topRight: Radius.circular(4.0)),
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image:
+                                      NetworkImage(accommodation!.images[1])),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Common.title(accommodation!,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12.0, vertical: 6.0),
+                            child: Common.rating(context, accommodation!),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12.0, vertical: 6.0),
+                            child: Common.pricing(context, accommodation!),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12.0, vertical: 6.0),
+                            child: Text(accommodation!.address),
+                          ),
+                          Divider(),
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Container(
+                              height: 16.0,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: accommodation!.utilities.length,
+                                  itemBuilder: (context, itemIndex) {
+                                    if (itemIndex ==
+                                        accommodation!.utilities.length - 1) {
+                                      return Text(
+                                          accommodation!.utilities[itemIndex]);
+                                    } else {
+                                      return Text(
+                                          accommodation!.utilities[itemIndex] +
+                                              " · ");
+                                    }
+                                  }),
+                            ),
+                          ),
+                          Divider(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12.0, vertical: 6.0),
+                            child: Text(
+                              accommodation!.description,
+                              textAlign: TextAlign.justify,
+                            ),
+                          ),
+                          Divider(),
+                          _reviews(context, accommodation!),
+                          SizedBox(
+                            height: 160.0,
+                          )
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Common.title(accommodation,
-                          fontWeight: FontWeight.w700),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12.0, vertical: 6.0),
-                      child: Common.rating(context, accommodation),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12.0, vertical: 6.0),
-                      child: Common.pricing(context, accommodation),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12.0, vertical: 6.0),
-                      child: Text(accommodation.address),
-                    ),
-                    Divider(),
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
+                    Positioned(
                       child: Container(
-                        height: 16.0,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: accommodation.utilities.length,
-                            itemBuilder: (context, itemIndex) {
-                              if (itemIndex ==
-                                  accommodation.utilities.length - 1) {
-                                return Text(accommodation.utilities[itemIndex]);
-                              } else {
-                                return Text(
-                                    accommodation.utilities[itemIndex] + " · ");
-                              }
-                            }),
+                        color: Colors.white,
+                        height: 100.0,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              bottom:
+                                  MediaQuery.of(context).viewPadding.bottom),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(
+                                  onPressed: () {},
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 60.0),
+                                    child: Text("REZERVOVAT"),
+                                  ),
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30.0))),
+                                  ))
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                    Divider(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12.0, vertical: 6.0),
-                      child: Text(
-                        accommodation.description,
-                        textAlign: TextAlign.justify,
-                      ),
-                    ),
-                    Divider(),
-                    _reviews(context, accommodation),
-                    SizedBox(
-                      height: 160.0,
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
                     )
                   ],
                 ),
-              ),
-              Positioned(
-                child: Container(
-                  color: Colors.white,
-                  height: 100.0,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewPadding.bottom),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                            onPressed: () {},
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 60.0),
-                              child: Text("REZERVOVAT"),
-                            ),
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(30.0))),
-                            ))
-                      ],
-                    ),
-                  ),
-                ),
-                bottom: 0,
-                left: 0,
-                right: 0,
-              )
-            ],
-          ),
         ));
   }
 
@@ -169,24 +199,42 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         if (review.author == userName)
-                          IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () async {
-                                var success = await api.deleteReview(
-                                    accommodation.id, review.id);
+                          Row(
+                            children: [
+                              IconButton(
+                                  icon: Icon(Icons.edit),
+                                  onPressed: () async {
+                                    var success = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => ReviewScreen(
+                                                  accommodation:
+                                                      widget.accommodation,
+                                                  existingReview: review,
+                                                )));
 
-                                if (success) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text(
-                                              "Vasa recenzia bola zmazana")));
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text(
-                                              "Recenziu sa nepodarilo zmazat")));
-                                }
-                              })
+                                    loadAccommodation();
+                                  }),
+                              IconButton(
+                                  icon: Icon(Icons.delete),
+                                  onPressed: () async {
+                                    var success = await api.deleteReview(
+                                        accommodation.id, review.id);
+                                    loadAccommodation();
+                                    if (success) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(
+                                                  "Vasa recenzia bola zmazana")));
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(
+                                                  "Recenziu sa nepodarilo zmazat")));
+                                    }
+                                  }),
+                            ],
+                          )
                       ],
                     ),
                   ),
@@ -234,6 +282,7 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
                               MaterialPageRoute(
                                   builder: (_) => ReviewScreen(
                                       accommodation: widget.accommodation)));
+                          loadAccommodation();
                         }
                       },
                       child: Text("Napisat recenziu"),
