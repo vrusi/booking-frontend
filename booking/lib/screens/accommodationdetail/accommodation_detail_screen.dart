@@ -157,11 +157,24 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    review.author,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Text(
+                      review.author,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
-                  Text(review.review)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Text(review.review),
+                  ),
+                  if (review.image != null)
+                    Image.network(
+                      "http://" + api.baseUrl + "/" + review.image!,
+                      height: 100,
+                      width: 100,
+                      fit: BoxFit.cover,
+                    )
                 ],
               ),
             ))

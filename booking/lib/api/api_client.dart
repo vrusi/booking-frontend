@@ -155,8 +155,9 @@ class Api extends http.BaseClient {
 class Review {
   final String author;
   final String review;
+  final String? image;
 
-  Review({required this.author, required this.review});
+  Review({required this.author, required this.review, this.image});
 }
 
 class Accommodation {
@@ -173,7 +174,7 @@ class Accommodation {
   final List<Review> reviews;
 
   factory Accommodation.fromJson(Map<String, dynamic> json) {
-    print(json['rating']);
+
     return Accommodation(
         id: json['id'],
         title: json['title'],
@@ -187,7 +188,7 @@ class Accommodation {
         utilities: ["4 hostia", "1 spalna", "3 postele", "1 kupelna"],
         reviews: (json['rating']['ratings'] as List)
             .map((e) =>
-                Review(author: e['author']['username'], review: e['content']))
+                Review(author: e['author']['username'], review: e['content'], image: e['image']))
             .toList());
   }
 
