@@ -1,6 +1,8 @@
 import 'package:booking/api/api_client.dart';
 import 'package:booking/common/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:booking/screens/review/review_screen.dart';
+import 'package:get_it/get_it.dart';
 
 class AccommodationDetailScreen extends StatefulWidget {
   static const ROUTE = "/accommodationdetail";
@@ -16,6 +18,8 @@ class AccommodationDetailScreen extends StatefulWidget {
 }
 
 class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
+  var api = GetIt.instance.get<Api>();
+
   @override
   Widget build(BuildContext context) {
     final accommodation = widget.accommodation;
@@ -179,7 +183,19 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        if (api.getUser() == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  "Pre pridanie recenzie musite byt prihlaseny")));
+                        } else {
+                          var success = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => ReviewScreen(
+                                      accommodation: widget.accommodation)));
+                        }
+                      },
                       child: Text("Napisat recenziu"),
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all(RoundedRectangleBorder(

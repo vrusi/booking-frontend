@@ -1,11 +1,26 @@
+import 'dart:io';
+
 import 'package:booking/api/api_client.dart';
+import 'package:booking/screens/accommodationdetail/accommodation_detail_screen.dart';
 import 'package:booking/screens/accommodationlist/accommodation_list_screen.dart';
 import 'package:booking/screens/landing/landing_screen.dart';
+import 'package:booking/screens/login/login_screen.dart';
+import 'package:booking/screens/profile/profile_screen.dart';
+import 'package:booking/screens/register/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  GetIt.instance.registerSingleton<Api>(Api());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final sharedPreferences = await SharedPreferences.getInstance();
+  var api = Api(
+      baseUrl: Platform.isAndroid ? "10.0.2.2:8000" : "localhost:8000",
+      sharedPreferences: sharedPreferences);
+  GetIt.instance.registerSingleton<Api>(api);
+
+  print(api.getUser()?.email);
+  print(api.getUser()?.token);
   runApp(BookingApp());
 }
 
@@ -37,6 +52,17 @@ class BookingApp extends StatelessWidget {
               builder: (_) => AccommodationListScreen(
                   searchQuery: settings.arguments as SearchQuery),
             );
+          case AccommodationDetailScreen.ROUTE:
+            return MaterialPageRoute(
+                builder: (_) => AccommodationDetailScreen(
+                      accommodation: settings.arguments as Accommodation,
+                    ));
+          case LoginScreen.ROUTE:
+            return MaterialPageRoute(builder: (_) => LoginScreen());
+          case RegisterScreen.ROUTE:
+            return MaterialPageRoute(builder: (_) => RegisterScreen());
+          case ProfileScreen.ROUTE:
+            return MaterialPageRoute(builder: (_) => ProfileScreen());
         }
       },
     );

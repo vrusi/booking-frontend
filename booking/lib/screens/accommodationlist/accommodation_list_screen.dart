@@ -1,5 +1,6 @@
 import 'package:booking/api/api_client.dart';
 import 'package:booking/common/widgets.dart';
+import 'package:booking/screens/accommodationdetail/accommodation_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -62,6 +63,7 @@ class _AccommodationListScreenState extends State<AccommodationListScreen> {
               Navigator.of(context).maybePop();
             },
           ),
+          centerTitle: false,
           title: Text("VYHLADAVANIE"),
         ),
         body: SafeArea(
@@ -107,28 +109,58 @@ class _AccommodationListScreenState extends State<AccommodationListScreen> {
         itemCount: accommodations!.length,
         itemBuilder: (BuildContext context, int itemIndex) {
           final accommodation = accommodations![itemIndex];
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            child: Card(
-              child: Container(
-                height: 300,
-                width: double.maxFinite,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Image.network(
-                        accommodation.images[1],
-                        height: 300.0,
-                        fit: BoxFit.contain,
+
+          return GestureDetector(
+            onTapUp: (_) {
+              Navigator.pushNamed(context, AccommodationDetailScreen.ROUTE,
+                  arguments: accommodation);
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Card(
+                child: Container(
+                  height: 300,
+                  width: double.maxFinite,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: double.maxFinite,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(4.0),
+                                topRight: Radius.circular(4.0)),
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(accommodation.images[1])),
+                          ),
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Text(accommodation.title),
-                      flex: 1,
-                    ),
-                  ],
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Common.rating(context, accommodation),
+                              SizedBox(
+                                height: 8.0,
+                              ),
+                              Common.title(accommodation),
+                              SizedBox(
+                                height: 6.0,
+                              ),
+                              Common.pricing(context, accommodation)
+                            ],
+                          ),
+                        ),
+                        flex: 1,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
