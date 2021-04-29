@@ -151,17 +151,43 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
   List<Widget> _allReviews(Accommodation accommodation) {
     if (accommodation.reviews.isEmpty) return [Text("Ziadne recenzie")];
 
+    var userName = api.getUser()?.email;
+
     return accommodation.reviews
         .map((review) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      review.author,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          review.author,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        if (review.author == userName)
+                          IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () async {
+                                var success = await api.deleteReview(
+                                    accommodation.id, review.id);
+
+                                if (success) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              "Vasa recenzia bola zmazana")));
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              "Recenziu sa nepodarilo zmazat")));
+                                }
+                              })
+                      ],
                     ),
                   ),
                   Padding(
@@ -174,7 +200,8 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
                       height: 100,
                       width: 100,
                       fit: BoxFit.cover,
-                    )
+                    ),
+                  Divider()
                 ],
               ),
             ))

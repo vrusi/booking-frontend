@@ -58,6 +58,17 @@ class Api extends http.BaseClient {
     return _inner.send(request);
   }
 
+  Future<bool> deleteReview(String accommodationId, String reviewId) async {
+    try {
+      final response = await this.delete(Uri.http(
+          baseUrl, "/accommodation/${accommodationId}/rating/${reviewId}/"));
+      return response.statusCode == 200;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future<bool> addReview(String accomodationId, String ratingText,
       double rating, File? image) async {
     try {
@@ -153,11 +164,16 @@ class Api extends http.BaseClient {
 }
 
 class Review {
+  final String id;
   final String author;
   final String review;
   final String? image;
 
-  Review({required this.author, required this.review, this.image});
+  Review(
+      {required this.id,
+      required this.author,
+      required this.review,
+      this.image});
 }
 
 class Accommodation {
@@ -174,7 +190,6 @@ class Accommodation {
   final List<Review> reviews;
 
   factory Accommodation.fromJson(Map<String, dynamic> json) {
-
     return Accommodation(
         id: json['id'],
         title: json['title'],
@@ -187,8 +202,11 @@ class Accommodation {
         price: 55.0,
         utilities: ["4 hostia", "1 spalna", "3 postele", "1 kupelna"],
         reviews: (json['rating']['ratings'] as List)
-            .map((e) =>
-                Review(author: e['author']['username'], review: e['content'], image: e['image']))
+            .map((e) => Review(
+                id: e['id'],
+                author: e['author']['username'],
+                review: e['content'],
+                image: e['image']))
             .toList());
   }
 
