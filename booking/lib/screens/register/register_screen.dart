@@ -24,19 +24,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Login.Form(
-                    titleText: "Registracia",
-                    buttonText: "Registrovat",
-                    alternativeButtonText: "Uz mate u nas ucet?",
+                    titleText: "Registrácia",
+                    buttonText: "Registrovať",
+                    alternativeButtonText: "Už máte účet?",
                     onButtonClicked: (String email, String password) async {
                       final loggedIn = await _api.register(email, password);
 
                       if (loggedIn) {
                         ScaffoldMessenger.of(context)
-                            .showSnackBar(SnackBar(content: Text("Boli ste zaregistrovany")));
+                            .showSnackBar(SnackBar(content: Text("Boli ste úspešne zaregistrovaní.")));
                         Navigator.of(context).pop();
                       } else {
                         ScaffoldMessenger.of(context)
-                            .showSnackBar(SnackBar(content: Text("Registracia zlyhala")));
+                            .showSnackBar(SnackBar(content: Text("Registrácia sa nepodarila.")));
                       }
                     },
                     onAlternativeButtonClicked: () {

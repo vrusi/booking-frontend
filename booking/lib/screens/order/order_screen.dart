@@ -23,12 +23,6 @@ class _OrderScreenState extends State<OrderScreen> {
     return Scaffold(
         appBar: AppBar(
           actions: [AccountButton()],
-          leading: IconButton(
-            icon: Icon(Icons.chevron_left),
-            onPressed: () {
-              Navigator.of(context).maybePop(true);
-            },
-          ),
           centerTitle: false,
           title: Text("REZERVÁCIA"),
         ),

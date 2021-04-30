@@ -10,9 +10,9 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
-  static const places = ["Kosice", "Bratislava", "Zilina"];
+  static const places = ["Košice", "Bratislava", "Žilina", "Banská Štiavnica", "Vranov nad Topľou", "Sobrance"];
 
-  String? place = "Kosice";
+  String? place = "Košice";
   int? people = 1;
 
   @override
@@ -32,6 +32,7 @@ class _LandingScreenState extends State<LandingScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('BOOKING'),
+        centerTitle: false,
         actions: [AccountButton()],
       ),
       body: SafeArea(
@@ -85,7 +86,7 @@ class _LandingScreenState extends State<LandingScreen> {
                 Row(
                   children: [
                     Text(
-                      'Kolki idete?',
+                      'Koľkí idete?',
                     ),
                   ],
                 ),
@@ -133,7 +134,7 @@ class _LandingScreenState extends State<LandingScreen> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 12.0),
-                        child: Text("Vyhladat ubytovanie"),
+                        child: Text("Vyhľadať ubytovanie"),
                       ),
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all(RoundedRectangleBorder(

@@ -30,19 +30,19 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Form(
-                titleText: "Prihlasenie",
-                buttonText: "Prihlasit",
-                alternativeButtonText: "Este nemate ucet?",
+                titleText: "Prihlásenie",
+                buttonText: "Prihlásiť",
+                alternativeButtonText: "Ešte nemáte účet?",
                 onButtonClicked: (String email, String password) async {
                   final loggedIn = await _api.login(email, password);
 
                   if (loggedIn) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Boli ste prihlaseny")));
+                        SnackBar(content: Text("Boli ste úspešne prihlásení.")));
                     Navigator.of(context).pop();
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Prihlasenie zlyhalo")));
+                        SnackBar(content: Text("Prihlásenie sa nepodarilo.")));
                   }
                 },
                 onAlternativeButtonClicked: () {
@@ -99,7 +99,7 @@ class _FormState extends State<Form> {
             decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Email',
-                hintText: 'Zadajte vas email'),
+                hintText: 'vas@email.sk'),
           ),
         ),
         Padding(
@@ -109,8 +109,8 @@ class _FormState extends State<Form> {
             obscureText: true,
             decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Password',
-                hintText: 'Zadajte vase nove heslo'),
+                labelText: 'Heslo',
+                hintText: 'neodhadnutelne'),
           ),
         ),
         Padding(

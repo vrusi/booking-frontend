@@ -13,6 +13,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('PROFIL'),
+          centerTitle: false,
         ),
         body: SafeArea(
             child: Center(
@@ -21,7 +22,7 @@ class ProfileScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Ste prihlaseny ako",
+                "Ste prihlásení ako",
                 style: Theme.of(context).textTheme.headline6,
               ),
               Padding(
@@ -32,13 +33,13 @@ class ProfileScreen extends StatelessWidget {
                   onPressed: () async {
                     await api.setUser(null);
                     ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text("Boli ste odhlaseny")));
+                        .showSnackBar(SnackBar(content: Text("Boli ste odhlásení.")));
                     Navigator.of(context).pop();
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 80.0, vertical: 14.0),
-                    child: Text("Odhlasit sa"),
+                    child: Text("Odhlásiť sa"),
                   ),
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(

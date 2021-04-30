@@ -43,7 +43,7 @@ class _AccommodationListScreenState extends State<AccommodationListScreen> {
       print(e.toString());
       print(st);
       setState(() {
-        error = "Ooops, nepodarilo sa nacitat ubytovania!";
+        error = "Nepodarilo sa načítať ubytovania.";
       });
     } finally {
       setState(() {
@@ -57,14 +57,9 @@ class _AccommodationListScreenState extends State<AccommodationListScreen> {
     return Scaffold(
         appBar: AppBar(
           actions: [AccountButton()],
-          leading: IconButton(
-            icon: Icon(Icons.chevron_left),
-            onPressed: () {
-              Navigator.of(context).maybePop();
-            },
-          ),
+
           centerTitle: false,
-          title: Text("VYHLADAVANIE"),
+          title: Text("VYHĽADÁVANIE"),
         ),
         body: SafeArea(
           child: Column(
@@ -86,7 +81,7 @@ class _AccommodationListScreenState extends State<AccommodationListScreen> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              "${widget.searchQuery.place}, ${widget.searchQuery.people} ludia",
+              "${widget.searchQuery.place}, ${widget.searchQuery.people} ľudia",
               style: Theme.of(context).textTheme.caption!.copyWith(
                   color: Colors.white,
                   fontSize: 16.0,

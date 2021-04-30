@@ -50,14 +50,8 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
     return Scaffold(
         appBar: AppBar(
           actions: [AccountButton()],
-          leading: IconButton(
-            icon: Icon(Icons.chevron_left),
-            onPressed: () {
-              Navigator.of(context).maybePop(true);
-            },
-          ),
           centerTitle: false,
-          title: Text("VYHLADAVANIE"),
+          title: Text("VYHĽADÁVANIE"),
         ),
         body: SafeArea(
           bottom: false,
@@ -161,7 +155,7 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 60.0),
-                                    child: Text("REZERVOVAT"),
+                                    child: Text("REZERVOVAŤ"),
                                   ),
                                   style: ButtonStyle(
                                     shape: MaterialStateProperty.all(
@@ -183,7 +177,7 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
   }
 
   List<Widget> _allReviews(Accommodation accommodation) {
-    if (accommodation.reviews.isEmpty) return [Text("Ziadne recenzie")];
+    if (accommodation.reviews.isEmpty) return [Text("Zatiaľ žiadne recenzie")];
 
     var userName = api.getUser()?.email;
 
@@ -229,12 +223,12 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
                                               content: Text(
-                                                  "Vasa recenzia bola zmazana")));
+                                                  "Vaša recenzia bola zmazaná.")));
                                     } else {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
                                               content: Text(
-                                                  "Recenziu sa nepodarilo zmazat")));
+                                                  "Recenziu sa nepodarilo zmazať.")));
                                     }
                                   }),
                             ],
@@ -279,7 +273,7 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
                         if (api.getUser() == null) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
-                                  "Pre pridanie recenzie musite byt prihlaseny")));
+                                  "Pre pridanie recenzie musíte byť prihlásení")));
                         } else {
                           var success = await Navigator.push(
                               context,
@@ -289,7 +283,7 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
                           loadAccommodation();
                         }
                       },
-                      child: Text("Napisat recenziu"),
+                      child: Text("Napísať recenziu"),
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30.0))),
