@@ -95,6 +95,7 @@ class _FormState extends State<Form> {
         Padding(
           padding: const EdgeInsets.all(24.0),
           child: TextField(
+            autocorrect: false,
             controller: _email,
             decoration: InputDecoration(
                 border: OutlineInputBorder(),

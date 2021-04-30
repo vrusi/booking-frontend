@@ -88,6 +88,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                           height: 10,
                         ),
                         TextField(
+                          autocorrect: false,
                           controller: ratingText,
                           maxLines: 8,
                           decoration: new InputDecoration(
@@ -145,7 +146,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                       content:
-                                          Text("Vyplnte slovné hodnotenie.")));
+                                          Text("Vyplňte slovné hodnotenie.")));
                               return;
                             }
 
