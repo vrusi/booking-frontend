@@ -83,7 +83,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         SizedBox(
                           height: 30,
                         ),
-                        Text("Slovne hodnotenie"),
+                        Text("Slovné hodnotenie"),
                         SizedBox(
                           height: 10,
                         ),
@@ -93,13 +93,13 @@ class _ReviewScreenState extends State<ReviewScreen> {
                           decoration: new InputDecoration(
                             focusedBorder: OutlineInputBorder(),
                             enabledBorder: OutlineInputBorder(),
-                            hintText: 'Pacilo sa mi...',
+                            hintText: 'Páčilo sa mi...',
                           ),
                         ),
                         SizedBox(
                           height: 30,
                         ),
-                        Text("Pocet hviezdiciek"),
+                        Text("Počet hviezdičiek"),
                         SizedBox(
                           height: 10,
                         ),
@@ -145,7 +145,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                       content:
-                                          Text("Vyplnte slovne hodnotenie")));
+                                          Text("Vyplnte slovné hodnotenie.")));
                               return;
                             }
 
@@ -153,7 +153,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                       content:
-                                          Text("Zadajte pocet hviezdiciek")));
+                                          Text("Zadajte počet hviezdičiek.")));
                               return;
                             }
 
@@ -166,20 +166,20 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
                             if (success) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text("Recenzia pridana")));
+                                  SnackBar(content: Text("Recenzia bola pridaná.")));
                               Navigator.of(context).pop(true);
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                       content: Text(
-                                          "Recenziu sa nepodarilo pridat")));
+                                          "Recenziu sa nepodarilo pridať.")));
                             }
                           },
                           child: Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 60.0),
                             child: Text(
-                                "${widget.existingReview != null ? 'UPRAVIT' : 'PRIDAT'} RECENZIU"),
+                                "${widget.existingReview != null ? 'UPRAVIŤ' : 'PRIDAŤ'} RECENZIU"),
                           ),
                           style: ButtonStyle(
                             shape: MaterialStateProperty.all(
@@ -248,7 +248,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
       onPressed: () {
         getImage();
       },
-      child: Text("Pridat fotografiu"),
+      child: Text("Pridať fotografiu"),
       style: ButtonStyle(
         shape: MaterialStateProperty.all(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
