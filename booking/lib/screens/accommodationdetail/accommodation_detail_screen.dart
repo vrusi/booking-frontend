@@ -1,5 +1,6 @@
 import 'package:booking/api/api_client.dart';
 import 'package:booking/common/widgets.dart';
+import 'package:booking/screens/order/order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:booking/screens/review/review_screen.dart';
 import 'package:get_it/get_it.dart';
@@ -153,7 +154,10 @@ class _AccommodationDetailScreenState extends State<AccommodationDetailScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, OrderScreen.ROUTE,
+                                    arguments: accommodation);
+                                  },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 60.0),
