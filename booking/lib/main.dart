@@ -6,6 +6,7 @@ import 'package:booking/screens/accommodationlist/accommodation_list_screen.dart
 import 'package:booking/screens/landing/landing_screen.dart';
 import 'package:booking/screens/login/login_screen.dart';
 import 'package:booking/screens/order/order_screen.dart';
+import 'package:booking/screens/order/order_successful.dart';
 import 'package:booking/screens/profile/profile_screen.dart';
 import 'package:booking/screens/register/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -68,6 +69,10 @@ class BookingApp extends StatelessWidget {
             return MaterialPageRoute(
                 builder: (_) => OrderScreen(
                     accommodation: settings.arguments as Accommodation));
+          case OrderSuccessfulScreen.ROUTE:
+            return MaterialPageRoute(builder: (_) => OrderSuccessfulScreen(
+              accommodation: settings.arguments as Accommodation
+            ));
         }
       },
     );

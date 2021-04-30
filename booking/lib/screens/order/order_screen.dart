@@ -3,6 +3,8 @@ import 'package:booking/common/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'order_successful.dart';
+
 class OrderScreen extends StatefulWidget {
   static const ROUTE = "/order";
   final Accommodation accommodation;
@@ -100,7 +102,10 @@ class _OrderScreenState extends State<OrderScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, OrderSuccessfulScreen.ROUTE,
+                        arguments: accommodation);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 60.0),
                         child: Text("ZAPLATIŤ"),
